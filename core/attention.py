@@ -28,7 +28,7 @@ Properties:
 import math
 from core.softmax import softmax
 
-def scaled_dot_product_attention(Q,K,V):
+def scaled_dot_product_attention(Q,K,V, mask = None):
 
     Tq = len(Q)
     d = len(Q[0])
@@ -52,6 +52,12 @@ def scaled_dot_product_attention(Q,K,V):
     for i in range(Tq):
         for j in range(Tk):
             scores[i][j] /= scale
+
+    if mask is not None:
+        for i in range(Tq):
+            for j in range(Tk):
+                scores[i][j] += mask[i][j]
+
 
     
     # applying softmax
@@ -81,4 +87,13 @@ def scaled_dot_product_attention(Q,K,V):
         
     return output
 
+def causal_mask(T):
+    neg_inf = float("-inf")
+    mask = [[0.0 for _ in range(T)] for _ in range(T)]
 
+    for i in range(T):
+        for j in range(T):
+            if j > i:
+                mask[i][j] = neg_inf
+
+    return mask
