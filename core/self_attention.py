@@ -35,7 +35,7 @@ class selfAttention:
 
         return [[random.uniform(-1,1) for _ in range (cols)] for _ in range(rows)]
     
-    def forward(self, X):
+    def forward(self, X, mask=None):
         
         d = self.d 
         Wq = self.Wq
@@ -72,5 +72,5 @@ class selfAttention:
                 V[i][j] = dot
 
         
-        output = scaled_dot_product_attention(Q,K,V)
+        output = scaled_dot_product_attention(Q,K,V, mask = mask)
         return output
