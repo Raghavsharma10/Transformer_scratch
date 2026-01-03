@@ -53,7 +53,7 @@ def scaled_dot_product_attention(Q,K,V, mask = None):
         for j in range(Tk):
             scores[i][j] /= scale
 
-    if mask is not None:
+    if mask is not None:        # Adding the mask matrix adn the score matrix - mask matrix is basicaaly a lower triangular matrix
         for i in range(Tq):
             for j in range(Tk):
                 scores[i][j] += mask[i][j]
