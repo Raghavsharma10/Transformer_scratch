@@ -43,7 +43,7 @@ def top_k_filter(probs, k=5):
     return filtered
 
 def main():
-    with open("data/tiny.txt", "r", encoding="utf-8") as f:
+    with open("data/alice.txt", "r", encoding="utf-8") as f:
         text = f.read()
 
     stoi, itos = build_vocab(text)

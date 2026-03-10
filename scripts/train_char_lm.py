@@ -19,7 +19,7 @@ def get_batch(data, start, T):
     return x, y
 
 def main():
-    with open("data/tiny.txt", "r", encoding="utf-8") as f:
+    with open("data/alice.txt", "r", encoding="utf-8") as f:
         text = f.read()
 
     stoi, itos = build_vocab(text)
@@ -48,7 +48,7 @@ def main():
     print("TRAINING STARTED")
     print("vocab_size =", vocab_size)
 
-    for step in range(1, 501):
+    for step in range(1, 40001):
         start = torch.randint(0, len(data) - T - 1, (1,)).item()
         x, y = get_batch(data, start, T)
 
@@ -59,7 +59,7 @@ def main():
         loss.backward()
         optimizer.step()
 
-        if step % 50 == 0:
+        if step % 2000 == 0:
             print(f"step {step:3d} | loss = {loss.item():.4f}")
     
     torch.save(model.state_dict(), ckpt_path)

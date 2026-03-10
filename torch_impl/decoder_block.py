@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 from torch_impl.self_attention import SelfAttention
+from torch_impl.multi_head_attention import MultiHeadAttention
 
 
 class DecoderBlock(nn.Module):
@@ -9,7 +10,7 @@ class DecoderBlock(nn.Module):
 
         super().__init__()
 
-        self.self_attention = SelfAttention(d)
+        self.self_attention = MultiHeadAttention(d, num_heads=4)
         self.norm1 = nn.LayerNorm(d)
         self.norm2 = nn.LayerNorm(d)
 
