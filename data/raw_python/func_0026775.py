@@ -1,6 +1,0 @@
-def apply_gravity(repulsion, nodes, gravity, scaling_ratio):
-    """
-    Iterate through the nodes or edges and apply the gravity directly to the node objects.
-    """
-    for i in range(0, len(nodes)):
-        repulsion.apply_gravitation(nodes[i], gravity / scaling_ratio)

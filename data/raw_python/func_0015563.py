@@ -1,3 +1,0 @@
-def historicalData(self, reqId, date, open, high, low, close, volume, barCount, WAP, hasGaps):
-        """historicalData(EWrapper self, TickerId reqId, IBString const & date, double open, double high, double low, double close, int volume, int barCount, double WAP, int hasGaps)"""
-        return _swigibpy.EWrapper_historicalData(self, reqId, date, open, high, low, close, volume, barCount, WAP, hasGaps)

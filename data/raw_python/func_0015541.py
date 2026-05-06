@@ -1,3 +1,0 @@
-def reqRealTimeBars(self, id, contract, barSize, whatToShow, useRTH, realTimeBarsOptions):
-        """reqRealTimeBars(EClientSocketBase self, TickerId id, Contract contract, int barSize, IBString const & whatToShow, bool useRTH, TagValueListSPtr const & realTimeBarsOptions)"""
-        return _swigibpy.EClientSocketBase_reqRealTimeBars(self, id, contract, barSize, whatToShow, useRTH, realTimeBarsOptions)

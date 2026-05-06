@@ -1,8 +1,0 @@
-def get(self, entry):
-        """Gets an entry by key.  Will return None if there is no
-        matching entry."""
-        try:
-            list = self.cache[entry.key]
-            return list[list.index(entry)]
-        except:
-            return None

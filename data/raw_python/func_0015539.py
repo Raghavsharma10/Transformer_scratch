@@ -1,3 +1,0 @@
-def reqHistoricalData(self, id, contract, endDateTime, durationStr, barSizeSetting, whatToShow, useRTH, formatDate, chartOptions):
-        """reqHistoricalData(EClientSocketBase self, TickerId id, Contract contract, IBString const & endDateTime, IBString const & durationStr, IBString const & barSizeSetting, IBString const & whatToShow, int useRTH, int formatDate, TagValueListSPtr const & chartOptions)"""
-        return _swigibpy.EClientSocketBase_reqHistoricalData(self, id, contract, endDateTime, durationStr, barSizeSetting, whatToShow, useRTH, formatDate, chartOptions)

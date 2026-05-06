@@ -1,7 +1,0 @@
-def display_path(path):
-    """Gives the display value for a given path, making it relative to cwd
-    if possible."""
-    path = os.path.normcase(os.path.abspath(path))
-    if path.startswith(os.getcwd() + os.path.sep):
-        path = '.' + path[len(os.getcwd()):]
-    return path

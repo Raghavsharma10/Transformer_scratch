@@ -1,3 +1,0 @@
-def tickEFP(self, tickerId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays, futureExpiry, dividendImpact, dividendsToExpiry):
-        """tickEFP(EWrapper self, TickerId tickerId, TickType tickType, double basisPoints, IBString const & formattedBasisPoints, double totalDividends, int holdDays, IBString const & futureExpiry, double dividendImpact, double dividendsToExpiry)"""
-        return _swigibpy.EWrapper_tickEFP(self, tickerId, tickType, basisPoints, formattedBasisPoints, totalDividends, holdDays, futureExpiry, dividendImpact, dividendsToExpiry)

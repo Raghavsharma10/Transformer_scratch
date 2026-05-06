@@ -1,3 +1,0 @@
-def tickOptionComputation(self, tickerId, tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice):
-        """tickOptionComputation(EWrapper self, TickerId tickerId, TickType tickType, double impliedVol, double delta, double optPrice, double pvDividend, double gamma, double vega, double theta, double undPrice)"""
-        return _swigibpy.EWrapper_tickOptionComputation(self, tickerId, tickType, impliedVol, delta, optPrice, pvDividend, gamma, vega, theta, undPrice)

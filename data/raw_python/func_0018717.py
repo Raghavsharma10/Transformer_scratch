@@ -1,5 +1,0 @@
-def write_string(self, value, length):
-        """Writes a string to the packet"""
-        format = '!' + str(length) + 's'
-        self.data.append(struct.pack(format, value))
-        self.size += length

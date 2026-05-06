@@ -1,8 +1,0 @@
-def read_string(self, len):
-        """Reads a string of a given length from the packet"""
-        format = '!' + str(len) + 's'
-        length = struct.calcsize(format)
-        info = struct.unpack(format,
-                self.data[self.offset:self.offset + length])
-        self.offset += length
-        return info[0]

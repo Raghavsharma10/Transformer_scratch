@@ -1,3 +1,0 @@
-def updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName):
-        """updatePortfolio(EWrapper self, Contract contract, int position, double marketPrice, double marketValue, double averageCost, double unrealizedPNL, double realizedPNL, IBString const & accountName)"""
-        return _swigibpy.EWrapper_updatePortfolio(self, contract, position, marketPrice, marketValue, averageCost, unrealizedPNL, realizedPNL, accountName)

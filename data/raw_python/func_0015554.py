@@ -1,3 +1,0 @@
-def orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld):
-        """orderStatus(EWrapper self, OrderId orderId, IBString const & status, int filled, int remaining, double avgFillPrice, int permId, int parentId, double lastFillPrice, int clientId, IBString const & whyHeld)"""
-        return _swigibpy.EWrapper_orderStatus(self, orderId, status, filled, remaining, avgFillPrice, permId, parentId, lastFillPrice, clientId, whyHeld)
