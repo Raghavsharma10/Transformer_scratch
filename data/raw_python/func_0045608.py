@@ -1,0 +1,30 @@
+def cached(namespace=None, service="memory", debug=False):
+    """
+    Wrapper for tornado requests. Example
+
+    ```
+    class MainHandler(tornado.web.RequestHandler):
+        @debris.tornado.cached("home-page")
+        def get(self):
+            self.write("Hello, world")
+
+    ```
+
+    """
+    _service = getattr(debris.services, service)
+    def wrapper(_f):
+        @functools.wraps(_f)
+        def _stash(self, *a, **k):
+            if debug is False:
+                # this request is cacheable
+                try:
+                    self.finish(_service.get(namespace))
+                except LookupError:
+                    _replace_finish(self, namespace, _service)
+                    # get the result of this request
+                    _f(self, *a, **k)
+                return
+            # request is not cacheable
+            _f(self, *a, **k)
+        return _stash
+    return wrapper

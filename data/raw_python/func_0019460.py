@@ -1,0 +1,24 @@
+def matches_at_fpr(fg_vals, bg_vals, fpr=0.01):
+    """
+    Computes the hypergeometric p-value at a specific FPR (default 1%).
+
+    Parameters
+    ----------
+    fg_vals : array_like
+        The list of values for the positive set.
+
+    bg_vals : array_like
+        The list of values for the negative set.
+    
+    fpr : float, optional
+        The FPR (between 0.0 and 1.0).
+    
+    Returns
+    -------
+    fraction : float
+        The fraction positives at the specified FPR.
+    """
+    fg_vals = np.array(fg_vals)
+    s = scoreatpercentile(bg_vals, 100 - fpr * 100)
+    
+    return [sum(fg_vals >= s), sum(bg_vals >= s)]

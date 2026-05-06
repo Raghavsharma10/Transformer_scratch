@@ -1,0 +1,14 @@
+def contents(self):
+        """The raw file contents as a string."""
+        if not self._contents:
+            if self._path:
+                # Read file into memory so we don't run out of file descriptors
+                f = open(self._path, "rb")
+                self._contents = f.read()
+                f.close()
+            elif self._pil_image:
+                # Write PIL image to string
+                f = StringIO()
+                self._pil_image.save(f, self.format)
+                self._contents = f.getvalue()
+        return self._contents

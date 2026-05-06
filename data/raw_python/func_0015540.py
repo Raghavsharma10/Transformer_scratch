@@ -1,0 +1,3 @@
+def exerciseOptions(self, tickerId, contract, exerciseAction, exerciseQuantity, account, override):
+        """exerciseOptions(EClientSocketBase self, TickerId tickerId, Contract contract, int exerciseAction, int exerciseQuantity, IBString const & account, int override)"""
+        return _swigibpy.EClientSocketBase_exerciseOptions(self, tickerId, contract, exerciseAction, exerciseQuantity, account, override)

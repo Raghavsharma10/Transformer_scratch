@@ -1,0 +1,5 @@
+def insert_short(self, index, value):
+        """Inserts an unsigned short in a certain position in the packet"""
+        format = '!H'
+        self.data.insert(index, struct.pack(format, value))
+        self.size += 2

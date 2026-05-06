@@ -1,0 +1,81 @@
+def update_qualification_type(QualificationTypeId=None, Description=None, QualificationTypeStatus=None, Test=None, AnswerKey=None, TestDurationInSeconds=None, RetryDelayInSeconds=None, AutoGranted=None, AutoGrantedValue=None):
+    """
+    The UpdateQualificationType operation modifies the attributes of an existing Qualification type, which is represented by a QualificationType data structure. Only the owner of a Qualification type can modify its attributes.
+    Most attributes of a Qualification type can be changed after the type has been created. However, the Name and Keywords fields cannot be modified. The RetryDelayInSeconds parameter can be modified or added to change the delay or to enable retries, but RetryDelayInSeconds cannot be used to disable retries.
+    You can use this operation to update the test for a Qualification type. The test is updated based on the values specified for the Test, TestDurationInSeconds and AnswerKey parameters. All three parameters specify the updated test. If you are updating the test for a type, you must specify the Test and TestDurationInSeconds parameters. The AnswerKey parameter is optional; omitting it specifies that the updated test does not have an answer key.
+    If you omit the Test parameter, the test for the Qualification type is unchanged. There is no way to remove a test from a Qualification type that has one. If the type already has a test, you cannot update it to be AutoGranted. If the Qualification type does not have a test and one is provided by an update, the type will henceforth have a test.
+    If you want to update the test duration or answer key for an existing test without changing the questions, you must specify a Test parameter with the original questions, along with the updated values.
+    If you provide an updated Test but no AnswerKey, the new test will not have an answer key. Requests for such Qualifications must be granted manually.
+    You can also update the AutoGranted and AutoGrantedValue attributes of the Qualification type.
+    See also: AWS API Documentation
+    
+    
+    :example: response = client.update_qualification_type(
+        QualificationTypeId='string',
+        Description='string',
+        QualificationTypeStatus='Active'|'Inactive',
+        Test='string',
+        AnswerKey='string',
+        TestDurationInSeconds=123,
+        RetryDelayInSeconds=123,
+        AutoGranted=True|False,
+        AutoGrantedValue=123
+    )
+    
+    
+    :type QualificationTypeId: string
+    :param QualificationTypeId: [REQUIRED]
+            The ID of the Qualification type to update.
+            
+
+    :type Description: string
+    :param Description: The new description of the Qualification type.
+
+    :type QualificationTypeStatus: string
+    :param QualificationTypeStatus: The new status of the Qualification type - Active | Inactive
+
+    :type Test: string
+    :param Test: The questions for the Qualification test a Worker must answer correctly to obtain a Qualification of this type. If this parameter is specified, TestDurationInSeconds must also be specified.
+            Constraints: Must not be longer than 65535 bytes. Must be a QuestionForm data structure. This parameter cannot be specified if AutoGranted is true.
+            Constraints: None. If not specified, the Worker may request the Qualification without answering any questions.
+            
+
+    :type AnswerKey: string
+    :param AnswerKey: The answers to the Qualification test specified in the Test parameter, in the form of an AnswerKey data structure.
+
+    :type TestDurationInSeconds: integer
+    :param TestDurationInSeconds: The number of seconds the Worker has to complete the Qualification test, starting from the time the Worker requests the Qualification.
+
+    :type RetryDelayInSeconds: integer
+    :param RetryDelayInSeconds: The amount of time, in seconds, that Workers must wait after requesting a Qualification of the specified Qualification type before they can retry the Qualification request. It is not possible to disable retries for a Qualification type after it has been created with retries enabled. If you want to disable retries, you must dispose of the existing retry-enabled Qualification type using DisposeQualificationType and then create a new Qualification type with retries disabled using CreateQualificationType.
+
+    :type AutoGranted: boolean
+    :param AutoGranted: Specifies whether requests for the Qualification type are granted immediately, without prompting the Worker with a Qualification test.
+            Constraints: If the Test parameter is specified, this parameter cannot be true.
+            
+
+    :type AutoGrantedValue: integer
+    :param AutoGrantedValue: The Qualification value to use for automatically granted Qualifications. This parameter is used only if the AutoGranted parameter is true.
+
+    :rtype: dict
+    :return: {
+        'QualificationType': {
+            'QualificationTypeId': 'string',
+            'CreationTime': datetime(2015, 1, 1),
+            'Name': 'string',
+            'Description': 'string',
+            'Keywords': 'string',
+            'QualificationTypeStatus': 'Active'|'Inactive',
+            'Test': 'string',
+            'TestDurationInSeconds': 123,
+            'AnswerKey': 'string',
+            'RetryDelayInSeconds': 123,
+            'IsRequestable': True|False,
+            'AutoGranted': True|False,
+            'AutoGrantedValue': 123
+        }
+    }
+    
+    
+    """
+    pass

@@ -1,0 +1,105 @@
+def create_from_name_and_dictionary(self, name, datas):
+        """Return a populated object Object from dictionary datas
+        """
+        if "type" not in datas:
+            str_type = "any"
+        else:
+            str_type = str(datas["type"]).lower()
+
+        if str_type not in ObjectRaw.Types:
+            type = ObjectRaw.Types("type")
+        else:
+            type = ObjectRaw.Types(str_type)
+
+        if type is ObjectRaw.Types.object:
+            object = ObjectObject()
+            if "properties" in datas:
+                object.properties = self.create_dictionary_of_element_from_dictionary("properties", datas)
+            if "patternProperties" in datas:
+                object.pattern_properties = self.create_dictionary_of_element_from_dictionary("patternProperties", datas)
+            if "additionalProperties" in datas:
+                if isinstance(datas["additionalProperties"], dict):
+                    object.additional_properties = self.create_from_name_and_dictionary("additionalProperties", datas["additionalProperties"])
+                elif not to_boolean(datas["additionalProperties"]):
+                    object.additional_properties = None
+                else:
+                    raise ValueError("AdditionalProperties doe not allow empty value (yet)")
+        elif type is ObjectRaw.Types.array:
+            object = ObjectArray()
+            if "items" in datas:
+                object.items = self.create_from_name_and_dictionary("items", datas["items"])
+            else:
+                object.items = ObjectObject()
+            if "sample_count" in datas:
+                object.sample_count = int(datas["sample_count"])
+        elif type is ObjectRaw.Types.number:
+            object = ObjectNumber()
+        elif type is ObjectRaw.Types.integer:
+            object = ObjectInteger()
+        elif type is ObjectRaw.Types.string:
+            object = ObjectString()
+        elif type is ObjectRaw.Types.boolean:
+            object = ObjectBoolean()
+            if "sample" in datas:
+                object.sample = to_boolean(datas["sample"])
+        elif type is ObjectRaw.Types.reference:
+            object = ObjectReference()
+            if "reference" in datas:
+                object.reference_name = str(datas["reference"])
+        elif type is ObjectRaw.Types.type:
+            object = ObjectType()
+            object.type_name = str(datas["type"])
+        elif type is ObjectRaw.Types.none:
+            object = ObjectNone()
+        elif type is ObjectRaw.Types.dynamic:
+            object = ObjectDynamic()
+            if "items" in datas:
+                object.items = self.create_from_name_and_dictionary("items", datas["items"])
+            if "sample" in datas:
+                if isinstance(datas["sample"], dict):
+                    object.sample = {}
+                    for k, v in datas["sample"].items():
+                        object.sample[str(k)] = str(v)
+                else:
+                    raise ValueError("A dictionnary is expected for dynamic\s object in \"%s\"" % name)
+        elif type is ObjectRaw.Types.const:
+            object = ObjectConst()
+            if "const_type" in datas:
+                const_type = str(datas["const_type"])
+                if const_type not in ObjectConst.Types:
+                    raise ValueError("Const type \"%s\" unknwon" % const_type)
+            else:
+                const_type = ObjectConst.Types.string
+            object.const_type = const_type
+            if "value" not in datas:
+                raise ValueError("Missing const value")
+            object.value = datas["value"]
+        elif type is ObjectRaw.Types.enum:
+            object = ObjectEnum()
+            if "values" not in datas or not isinstance(datas['values'], list):
+                raise ValueError("Missing enum values")
+            object.values = [str(value) for value in datas["values"]]
+            if "descriptions" in datas and isinstance(datas['descriptions'], dict):
+                for (value_name, value_description) in datas["descriptions"].items():
+                    value = EnumValue()
+                    value.name = value_name
+                    value.description = value_description
+                    object.descriptions.append(value)
+
+            descriptions = [description.name for description in object.descriptions]
+            for value_name in [x for x in object.values if x not in descriptions]:
+                value = EnumValue()
+                value.name = value_name
+                object.descriptions.append(value)
+        else:
+            object = ObjectRaw()
+
+        self.set_common_datas(object, name, datas)
+        if isinstance(object, Constraintable):
+            self.set_constraints(object, datas)
+        object.type = type
+
+        if "optional" in datas:
+            object.optional = to_boolean(datas["optional"])
+
+        return object

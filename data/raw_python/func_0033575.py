@@ -1,0 +1,117 @@
+def init(provider=None):
+    """
+    Runs through a questionnaire to set up your project's deploy settings
+    """
+    if os.path.exists(DEPLOY_YAML):
+        _yellow("\nIt looks like you've already gone through the questionnaire.")
+        cont = prompt("Do you want to go through it again and overwrite the current one?", default="No")
+
+        if cont.strip().lower() == "no":
+            return None
+    _green("\nWelcome to the django-deployer!")
+    _green("\nWe need to ask a few questions in order to set up your project to be deployed to a PaaS provider.")
+
+    # TODO: identify the project dir based on where we find the settings.py or urls.py
+
+    django_settings = prompt(
+        "* What is your Django settings module?",
+        default="settings",
+        validate=_validate_django_settings
+    )
+
+    managepy = prompt(
+        "* Where is your manage.py file?",
+        default="./manage.py",
+        validate=_validate_managepy
+    )
+
+    requirements = prompt(
+        "* Where is your requirements.txt file?",
+        default="requirements.txt",
+        validate=_validate_requirements
+    )
+    # TODO: confirm that the file exists
+    # parse the requirements file and warn the user about best practices:
+    #   Django==1.4.1
+    #   psycopg2 if they selected PostgreSQL
+    #   MySQL-python if they selected MySQL
+    #   South for database migrations
+    #   dj-database-url
+
+    pyversion = prompt("* What version of Python does your app need?", default="Python2.7")
+
+    # TODO: get these values by reading the settings.py file
+    static_url = prompt("* What is your STATIC_URL?", default="/static/")
+    media_url = prompt("* What is your MEDIA_URL?", default="/media/")
+
+    if not provider:
+        provider = prompt("* Which provider would you like to deploy to (dotcloud, appengine, stackato, openshift)?",
+                          validate=_validate_providers)
+
+    # Where to place the provider specific questions
+    site = {}
+    additional_site = {}
+
+    if provider == "appengine":
+        applicationid = prompt("* What's your Google App Engine application ID (see https://appengine.google.com/)?", validate=r'.+')
+        instancename = prompt("* What's the full instance ID of your Cloud SQL instance\n"
+                              "(should be in format \"projectid:instanceid\" found at https://code.google.com/apis/console/)?", validate=r'.+:.+')
+        databasename = prompt("* What's your database name?", validate=r'.+')
+        sdk_location = prompt("* Where is your Google App Engine SDK location?",
+                              default="/usr/local/google_appengine",
+                              validate=r'.+'  # TODO: validate that this path exists
+                              )
+
+        additional_site.update({
+            # quotes for the yaml issue
+            'application_id': applicationid,
+            'instancename': instancename,
+            'databasename': databasename,
+            'sdk_location': sdk_location,
+        })
+
+        # only option with Google App Engine is MySQL, so we'll just hardcode it
+        site = {
+            'database': 'MySQL'
+        }
+
+    elif provider == "openshift":
+        application_name = prompt("* What is your openshift application name?")
+
+        site = {
+            'application_name': application_name
+        }
+
+    else:
+        database = prompt("* What database does your app use?", default="PostgreSQL")
+        site = {
+            'database': database,
+        }
+
+    # TODO: add some validation that the admin password is valid
+    # TODO: let the user choose the admin username instead of hardcoding it to 'admin'
+    admin_password = prompt("* What do you want to set as the admin password?",
+                            validate=_validate_admin_password
+                            )
+
+    import random
+    SECRET_KEY = ''.join([random.SystemRandom().choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)])
+    SECRET_KEY = "'" + SECRET_KEY + "'"
+
+    site.update({
+        'pyversion': pyversion,
+        'django_settings': django_settings,
+        'managepy': managepy,
+        'requirements': requirements,
+        'static_url': static_url,
+        'media_url': media_url,
+        'provider': provider,
+        'admin_password': admin_password,
+        'secret_key': SECRET_KEY,
+    })
+
+    site.update(additional_site)
+
+    _create_deploy_yaml(site)
+
+    return site

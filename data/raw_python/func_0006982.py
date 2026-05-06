@@ -1,0 +1,38 @@
+def create_backend(self, 
+		service_id,
+		version_number, 
+		name, 
+		address,
+		use_ssl=False,
+		port=80,
+		connect_timeout=1000,
+		first_byte_timeout=15000,
+		between_bytes_timeout=10000,
+		error_threshold=0,
+		max_conn=20,
+		weight=100,
+		auto_loadbalance=False,
+		shield=None,
+		request_condition=None,
+		healthcheck=None,
+		comment=None):
+		"""Create a backend for a particular service and version."""
+		body = self._formdata({
+			"name": name,
+			"address": address,
+			"use_ssl": use_ssl,
+			"port": port,
+			"connect_timeout": connect_timeout,
+			"first_byte_timeout": first_byte_timeout,
+			"between_bytes_timeout": between_bytes_timeout,
+			"error_threshold": error_threshold,
+			"max_conn": max_conn,
+			"weight": weight,
+			"auto_loadbalance": auto_loadbalance,
+			"shield": shield,
+			"request_condition": request_condition,
+			"healthcheck": healthcheck,
+			"comment": comment,
+		}, FastlyBackend.FIELDS)
+		content = self._fetch("/service/%s/version/%d/backend" % (service_id, version_number), method="POST", body=body)
+		return FastlyBackend(self, content)

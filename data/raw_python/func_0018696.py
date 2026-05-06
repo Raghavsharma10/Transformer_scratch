@@ -1,0 +1,5 @@
+def answered_by(self, rec):
+        """Returns true if the question is answered by the record"""
+        return self.clazz == rec.clazz and \
+                (self.type == rec.type or self.type == _TYPE_ANY) and \
+                self.name == rec.name

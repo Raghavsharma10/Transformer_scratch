@@ -1,0 +1,33 @@
+def _s3bukt(self):
+        """ Overrides the original _s3bukt method to get the bucket without vlaidation when
+        the return to the original validation is not a 404.
+        :return:
+        """
+        from boto.exception import S3ResponseError
+        import time
+
+        try:
+            (b, ctime) = self._tlocal.s3bukt
+            if time.time() - ctime > 60:
+                raise AttributeError
+            return b
+        except AttributeError:
+
+            try:
+                # Validate by listing the bucket if there is no prefix.
+                # If there is a prefix, validate by listing only the prefix
+                # itself, to avoid errors when an IAM policy has been applied.
+                if self._prefix:
+                    b = self._s3conn.get_bucket(self._bucket_name, validate=0)
+                    b.get_key(self._prefix)
+                else:
+                    b = self._s3conn.get_bucket(self._bucket_name, validate=1)
+            except S3ResponseError as e:
+
+                if "404 Not Found" in str(e):
+                    raise
+
+                b = self._s3conn.get_bucket(self._bucket_name, validate=0)
+
+            self._tlocal.s3bukt = (b, time.time())
+            return b

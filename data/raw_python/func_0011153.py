@@ -1,0 +1,21 @@
+def show_examples():
+    """ Run through some simple examples
+    """
+    first, last = create_name()
+    add = create_street()
+    zip, city, state = create_city_state_zip()
+    phone = create_phone(zip)
+    print(first, last)
+    print(add)
+    print("{0:s} {1:s} {2:s}".format(city, state, zip))
+    print(phone)
+    print(create_sentence())
+    print(create_paragraphs(num=3))
+    print(create_cc_number())
+    expiry = create_date(max_years_future=3)
+    print("{0:%m/%y}".format(expiry))
+    print(create_email(name=(first, last)))
+    print("Password: {0:s}".format(create_pw()))
+    print(create_company_name())
+    print(create_job_title())
+    print("Born on {0:%m/%d/%Y}".format(create_birthday()))

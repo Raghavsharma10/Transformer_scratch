@@ -1,0 +1,8 @@
+def read_int(self):
+        """Reads an integer from the packet"""
+        format = '!I'
+        length = struct.calcsize(format)
+        info = struct.unpack(format,
+                self.data[self.offset:self.offset + length])
+        self.offset += length
+        return info[0]

@@ -26,9 +26,9 @@ def main():
     data = encode(text, stoi)
 
     vocab_size = len(stoi)
-    d = 64
-    num_layers = 2
-    T = 32
+    d = 128
+    num_layers = 4
+    T = 128
 
     model = TransformerLM(vocab_size, d, num_layers)
 

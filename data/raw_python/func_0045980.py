@@ -1,0 +1,88 @@
+def get_activity_mdata():
+    """Return default mdata map for Activity"""
+    return {
+        'courses': {
+            'element_label': {
+                'text': 'courses',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'instructions': {
+                'text': 'accepts an osid.id.Id[] object',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'required': False,
+            'read_only': False,
+            'linked': False,
+            'array': True,
+            'default_id_values': [],
+            'syntax': 'ID',
+            'id_set': [],
+        },
+        'assessments': {
+            'element_label': {
+                'text': 'assessments',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'instructions': {
+                'text': 'accepts an osid.id.Id[] object',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'required': False,
+            'read_only': False,
+            'linked': False,
+            'array': True,
+            'default_id_values': [],
+            'syntax': 'ID',
+            'id_set': [],
+        },
+        'objective': {
+            'element_label': {
+                'text': 'objective',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'instructions': {
+                'text': 'accepts an osid.id.Id object',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'required': False,
+            'read_only': False,
+            'linked': False,
+            'array': False,
+            'default_id_values': [''],
+            'syntax': 'ID',
+            'id_set': [],
+        },
+        'assets': {
+            'element_label': {
+                'text': 'assets',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'instructions': {
+                'text': 'accepts an osid.id.Id[] object',
+                'languageTypeId': str(DEFAULT_LANGUAGE_TYPE),
+                'scriptTypeId': str(DEFAULT_SCRIPT_TYPE),
+                'formatTypeId': str(DEFAULT_FORMAT_TYPE),
+            },
+            'required': False,
+            'read_only': False,
+            'linked': False,
+            'array': True,
+            'default_id_values': [],
+            'syntax': 'ID',
+            'id_set': [],
+        },
+    }

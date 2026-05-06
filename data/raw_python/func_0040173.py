@@ -1,0 +1,33 @@
+def add_resource_permissions(*args, **kwargs):
+  """
+  This syncdb hooks takes care of adding a view permission too all our 
+  content types.
+  """
+  # for each of our content types
+  for resource in find_api_classes('v1_api', ModelResource):
+    auth = resource._meta.authorization
+    content_type = ContentType.objects.get_for_model(resource._meta.queryset.model)
+    if isinstance(auth, SpiffAuthorization):
+      conditions = auth.conditions()
+      operations = auth.operations()
+      if len(conditions) == 0:
+        conditions = (None,)
+
+      for condition in conditions:
+        for operation in operations:
+          # build our permission slug
+          if condition:
+            codename = "%s_%s_%s" % (operation[0], condition[0], content_type.model)
+            name = "Can %s %s, when %s" % (operation[1], content_type.name,
+                condition[1])
+          else:
+            codename = "%s_%s" % (operation[1], content_type.model)
+            name = "Can %s %s" % (operation[1], content_type.name)
+
+          # if it doesn't exist..
+          if not Permission.objects.filter(content_type=content_type, codename=codename):
+            # add it
+            Permission.objects.create(content_type=content_type,
+                                      codename=codename,
+                                      name=name[:49])
+            funcLog().debug("Created permission %s.%s (%s)", content_type.app_label, codename, name)

@@ -1,0 +1,119 @@
+{
+  "name": "python-code-suggester",
+  "displayName": "Python Code Suggester",
+  "description": "Top-k Python code block suggestions powered by your in-house transformer",
+  "version": "0.1.0",
+  "publisher": "your-name",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": ["Machine Learning", "Other"],
+  "keywords": ["python", "autocomplete", "code completion", "ai", "transformer"],
+  "icon": "images/icon.png",
+  "activationEvents": [
+    "onLanguage:python"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "codeSuggest.toggle",
+        "title": "Python Suggester: Toggle On/Off"
+      },
+      {
+        "command": "codeSuggest.suggest",
+        "title": "Python Suggester: Trigger Suggestion"
+      },
+      {
+        "command": "codeSuggest.acceptSuggestion1",
+        "title": "Python Suggester: Accept suggestion 1"
+      },
+      {
+        "command": "codeSuggest.acceptSuggestion2",
+        "title": "Python Suggester: Accept suggestion 2"
+      },
+      {
+        "command": "codeSuggest.acceptSuggestion3",
+        "title": "Python Suggester: Accept suggestion 3"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "codeSuggest.acceptSuggestion1",
+        "key": "tab",
+        "when": "codeSuggest.hasSuggestions && editorTextFocus && editorLangId == python"
+      },
+      {
+        "command": "codeSuggest.acceptSuggestion2",
+        "key": "alt+2",
+        "when": "codeSuggest.hasSuggestions && editorTextFocus && editorLangId == python"
+      },
+      {
+        "command": "codeSuggest.acceptSuggestion3",
+        "key": "alt+3",
+        "when": "codeSuggest.hasSuggestions && editorTextFocus && editorLangId == python"
+      },
+      {
+        "command": "codeSuggest.suggest",
+        "key": "ctrl+shift+space",
+        "when": "editorTextFocus && editorLangId == python"
+      }
+    ],
+    "configuration": {
+      "title": "Python Code Suggester",
+      "properties": {
+        "codeSuggest.serverUrl": {
+          "type": "string",
+          "default": "http://127.0.0.1:8000",
+          "description": "URL of the running suggestion server"
+        },
+        "codeSuggest.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable automatic suggestions"
+        },
+        "codeSuggest.debounceMs": {
+          "type": "number",
+          "default": 400,
+          "description": "Milliseconds to wait after typing before requesting a suggestion"
+        },
+        "codeSuggest.maxTokens": {
+          "type": "number",
+          "default": 64,
+          "description": "Maximum tokens to generate per suggestion"
+        },
+        "codeSuggest.numSuggestions": {
+          "type": "number",
+          "default": 3,
+          "minimum": 1,
+          "maximum": 3,
+          "description": "Number of suggestions to show (1-3)"
+        },
+        "codeSuggest.triggerOnNewLine": {
+          "type": "boolean",
+          "default": true,
+          "description": "Auto-trigger a suggestion whenever the user presses Enter"
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts",
+    "package": "vsce package"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "@vscode/vsce": "^2.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.6.0"
+  }
+}

@@ -1,0 +1,93 @@
+def extendArrayForConvolution(arr, kernelXY, 
+                          modex='reflect', 
+                          modey='reflect'):
+    '''
+    extends a given array right right border handling
+    for convolution
+    -->in opposite to skimage and skipy this function 
+    allows to chose different mode = ('reflect', 'wrap')
+    in x and y direction
+    
+    only supports 'warp' and 'reflect' at the moment 
+    '''
+    (kx, ky) = kernelXY
+    kx//=2
+    ky//=2
+    
+    #indexing 0:-0 leads to empty arrays and not the whole thing
+    #make it easy with assuming ksize=1 and removing extra size later:
+    nokx = kx == 0 
+    noky = ky == 0 
+    if nokx:
+        kx = 1
+    if noky:
+        ky = 1        
+    
+    s0,s1 = arr.shape
+    
+    assert ky < s0
+    assert kx < s1
+    
+    arr2 = np.zeros((s0+2*ky, s1+2*kx), dtype=arr.dtype)
+    if kx == 0:
+        kx = None
+    arr2[ky:-ky,kx:-kx]=arr
+    
+    #original array:
+    t =  arr[:ky] #TOP
+    rb = arr[-1:-ky-1:-1] #reverse bottom
+    rt = arr[ky-1::-1] #reverse top
+    rr = arr[:,-1:-kx-1:-1] #reverse right
+    l = arr[:,:kx] #left
+#     rtl = arr[ky-1::-1,kx-1::-1]
+
+    #filter array:
+    tm2 = arr2[:ky ,  kx:-kx] #TOP-MIDDLE
+    bm2 = arr2[-ky:,  kx:-kx]  #BOTTOM-MIDDLE
+    tl2 = arr2[:ky , :kx] #TOP-LEFT
+    bl2 = arr2[-ky:, :kx] #BOTTOM-LEFT
+    tr2 = arr2[:ky:, -kx:]#TOP-RIGHT
+    br2 = arr2[-ky:, -kx:]#TOP-RIGHT
+    
+    #fill edges:
+    if modey == 'warp':
+        tm2[:] = t
+        bm2[:] = rb
+  
+        tl2[:] = arr2[2*ky:ky:-1,:kx]
+        bl2[:] = arr2[-ky-1:-2*ky-1:-1,:kx]
+    #TODO: do other options!!!  
+    elif modey == 'reflect':
+        tm2[:] = rt
+        bm2[:] = rb
+        if modex =='reflect':
+            tl2[:] = arr[ky-1::-1,kx-1::-1]
+            bl2[:] = arr[-1:-ky-1:-1,kx-1::-1]
+            
+            tr2[:] = arr[:ky,-kx:][::-1,::-1]
+            br2[:] = arr[-ky:,-kx:][::-1,::-1]
+            
+        else:#warp
+            tl2[:] = arr[ky-1::-1    , -kx:]
+            bl2[:] = arr[-1:-ky-1:-1 , -kx:]
+            tr2[:] = arr[ky-1::-1    , :kx]
+            br2[:] = arr[-1:-ky-1:-1 , :kx]
+            
+    else:
+        raise Exception('modey not supported')
+    
+    if modex == 'wrap':
+        arr2[ky:-ky,kx-1::-1] = rr
+        arr2[ky:-ky,-kx:] = l     
+    elif modex == 'reflect':
+        arr2[ky:-ky,:kx] = l[:,::-1]
+        arr2[ky:-ky,-kx:] = rr   
+    else:
+        raise Exception('modex not supported')
+
+    if nokx:
+        arr2 = arr2[:,1:-1]
+    if noky:
+        arr2 = arr2[1:-1]    
+            
+    return arr2

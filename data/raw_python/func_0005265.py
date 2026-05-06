@@ -1,0 +1,40 @@
+def encode_character(char):
+    """Returns URL encoding for a single character
+
+    :param char (str) Single character to encode
+    :returns (str) URL-encoded character
+    """
+    if char == '!': return '%21'
+    elif char == '"': return '%22'
+    elif char == '#': return '%23'
+    elif char == '$': return '%24'
+    elif char == '%': return '%25'
+    elif char == '&': return '%26'
+    elif char == '\'': return '%27'
+    elif char == '(': return '%28'
+    elif char == ')': return '%29'
+    elif char == '*': return '%2A'
+    elif char == '+': return '%2B'
+    elif char == ',': return '%2C'
+    elif char == '-': return '%2D'
+    elif char == '.': return '%2E'
+    elif char == '/': return '%2F'
+    elif char == ':': return '%3A'
+    elif char == ';': return '%3B'
+    elif char == '<': return '%3C'
+    elif char == '=': return '%3D'
+    elif char == '>': return '%3E'
+    elif char == '?': return '%3F'
+    elif char == '@': return '%40'
+    elif char == '[': return '%5B'
+    elif char == '\\': return '%5C'
+    elif char == ']': return '%5D'
+    elif char == '^': return '%5E'
+    elif char == '_': return '%5F'
+    elif char == '`': return '%60'
+    elif char == '{': return '%7B'
+    elif char == '|': return '%7C'
+    elif char == '}': return '%7D'
+    elif char == '~': return '%7E'
+    elif char == ' ': return '%7F'
+    else: return char

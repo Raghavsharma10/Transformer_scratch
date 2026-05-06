@@ -1,0 +1,9 @@
+def contribute_to_class(self, cls, name):
+        """Contribute the state to a Model.
+
+        Attaches a StateFieldProperty to wrap the attribute.
+        """
+        super(StateField, self).contribute_to_class(cls, name)
+
+        parent_property = getattr(cls, self.name, None)
+        setattr(cls, self.name, StateFieldProperty(self, parent_property))

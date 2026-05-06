@@ -1,0 +1,3 @@
+def create_task(self, list_id, title, assignee_id=None, completed=None, recurrence_type=None, recurrence_count=None, due_date=None, starred=None):
+        ''' Creates a new task with the given information in the list with the given ID '''
+        return tasks_endpoint.create_task(self, list_id, title, assignee_id=assignee_id, completed=completed, recurrence_type=recurrence_type, recurrence_count=recurrence_count, due_date=due_date, starred=starred)

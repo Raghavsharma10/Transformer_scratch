@@ -1,0 +1,3 @@
+def scannerData(self, reqId, rank, contractDetails, distance, benchmark, projection, legsStr):
+        """scannerData(EWrapper self, int reqId, int rank, ContractDetails contractDetails, IBString const & distance, IBString const & benchmark, IBString const & projection, IBString const & legsStr)"""
+        return _swigibpy.EWrapper_scannerData(self, reqId, rank, contractDetails, distance, benchmark, projection, legsStr)

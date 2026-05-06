@@ -1,0 +1,21 @@
+def rgb_to_hex(cls, color):
+        """
+        Convert an ``(r, g, b)`` color tuple to a hexadecimal string.
+
+        Alphabetical characters in the output will be capitalized.
+
+        Args:
+            color (tuple): An rgb color tuple of form: (int, int, int)
+
+        Returns: string
+
+        Example:
+            >>> SoftColor.rgb_to_hex((0, 0, 0))
+            '#000000'
+            >>> SoftColor.rgb_to_hex((255, 255, 255))
+            '#FFFFFF'
+        """
+        return '#{0:02x}{1:02x}{2:02x}'.format(
+            cls._bound_color_value(color[0]),
+            cls._bound_color_value(color[1]),
+            cls._bound_color_value(color[2])).upper()

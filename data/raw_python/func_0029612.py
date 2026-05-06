@@ -1,0 +1,18 @@
+def get_mac_address_table_output_mac_address_table_forwarding_interface_interface_type(self, **kwargs):
+        """Auto Generated Code
+        """
+        config = ET.Element("config")
+        get_mac_address_table = ET.Element("get_mac_address_table")
+        config = get_mac_address_table
+        output = ET.SubElement(get_mac_address_table, "output")
+        mac_address_table = ET.SubElement(output, "mac-address-table")
+        vlanid_key = ET.SubElement(mac_address_table, "vlanid")
+        vlanid_key.text = kwargs.pop('vlanid')
+        mac_address_key = ET.SubElement(mac_address_table, "mac-address")
+        mac_address_key.text = kwargs.pop('mac_address')
+        forwarding_interface = ET.SubElement(mac_address_table, "forwarding-interface")
+        interface_type = ET.SubElement(forwarding_interface, "interface-type")
+        interface_type.text = kwargs.pop('interface_type')
+
+        callback = kwargs.pop('callback', self._callback)
+        return callback(config)

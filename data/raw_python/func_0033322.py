@@ -1,0 +1,49 @@
+def get_objects(self, uri, _oid=None, _start=None, _end=None,
+                    load_kwargs=None, **kwargs):
+        '''
+        Load and transform csv data into a list of dictionaries.
+
+        Each row in the csv will result in one dictionary in the list.
+
+        :param uri: uri (file://, http(s)://) of csv file to load
+        :param _oid:
+            column or func to apply to map _oid in all resulting objects
+        :param _start:
+            column or func to apply to map _start in all resulting objects
+        :param _end:
+            column or func to apply to map _end in all resulting objects
+        :param kwargs: kwargs to pass to pandas.read_csv method
+
+        _start and _oid arguments can be a column name or a function
+        which accepts a single argument -- the row being extracted.
+
+        If either is a column name (string) then that column will be applied
+        as _oid for each object generated.
+
+        If either is a function, the function will be applied per each row
+        and the result of the function will be assigned to the _start
+        or _oid, respectively.
+        '''
+        load_kwargs = load_kwargs or {}
+        objects = load(path=uri, filetype='csv', **load_kwargs)
+
+        k = itertools.count(1)
+        now = utcnow()
+        __oid = lambda o: k.next()
+
+        _oid = _oid or __oid
+        _start = _start or now
+        _end = _end or None
+
+        def is_callable(v):
+            _v = type(v)
+            _ = True if _v is type or hasattr(v, '__call__') else False
+            return _
+
+        for obj in objects:
+            obj['_oid'] = _oid(obj) if is_callable(_oid) else _oid
+            obj['_start'] = _start(obj) if is_callable(_start) else _start
+            obj['_end'] = _end(obj) if is_callable(_end) else _end
+            self.container.add(obj)
+
+        return super(Rows, self).get_objects(**kwargs)

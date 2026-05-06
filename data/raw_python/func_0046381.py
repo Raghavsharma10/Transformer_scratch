@@ -1,0 +1,11 @@
+def get_start_time_metadata(self):
+        """Gets the metadata for the assessment start time.
+
+        return: (osid.Metadata) - metadata for the start time
+        *compliance: mandatory -- This method must be implemented.*
+
+        """
+        # Implemented from template for osid.resource.ResourceForm.get_group_metadata_template
+        metadata = dict(self._mdata['start_time'])
+        metadata.update({'existing_date_time_values': self._my_map['startTime']})
+        return Metadata(**metadata)

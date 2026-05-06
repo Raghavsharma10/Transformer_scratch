@@ -1,0 +1,42 @@
+def encode_data(self):
+        """Encode the data back into a dict."""
+        output_data = {}
+        output_data["groupTypeList"] = encode_array(self.group_type_list, 4, 0)
+        output_data["xCoordList"] = encode_array(self.x_coord_list, 10, 1000)
+        output_data["yCoordList"] = encode_array(self.y_coord_list, 10, 1000)
+        output_data["zCoordList"] = encode_array(self.z_coord_list, 10, 1000)
+        output_data["bFactorList"] = encode_array(self.b_factor_list, 10, 100)
+        output_data["occupancyList"] = encode_array(self.occupancy_list, 9, 100)
+        output_data["atomIdList"] = encode_array(self.atom_id_list, 8, 0)
+        output_data["altLocList"] = encode_array(self.alt_loc_list, 6, 0)
+        output_data["insCodeList"] = encode_array(self.ins_code_list, 6, 0)
+        output_data["groupIdList"] = encode_array(self.group_id_list, 8, 0)
+        output_data["groupList"] = self.group_list
+        output_data["sequenceIndexList"] = encode_array(self.sequence_index_list, 8, 0)
+        output_data["chainNameList"] = encode_array(self.chain_name_list, 5, 4)
+        output_data["chainIdList"] = encode_array(self.chain_id_list, 5, 4)
+        output_data["bondAtomList"] = encode_array(self.bond_atom_list, 4, 0)
+        output_data["bondOrderList"] = encode_array(self.bond_order_list, 2, 0)
+        output_data["secStructList"] = encode_array(self.sec_struct_list, 2, 0)
+        output_data["chainsPerModel"] = self.chains_per_model
+        output_data["groupsPerChain"] = self.groups_per_chain
+        output_data["spaceGroup"] = self.space_group
+        output_data["mmtfVersion"] = self.mmtf_version
+        output_data["mmtfProducer"] = self.mmtf_producer
+        output_data["structureId"] = self.structure_id
+        output_data["entityList"] = self.entity_list
+        output_data["bioAssemblyList"] = self.bio_assembly
+        output_data["rFree"] = self.r_free
+        output_data["rWork"] = self.r_work
+        output_data["resolution"] = self.resolution
+        output_data["title"] = self.title
+        output_data["experimentalMethods"] = self.experimental_methods
+        output_data["depositionDate"] = self.deposition_date
+        output_data["releaseDate"] = self.release_date
+        output_data["unitCell"] = self.unit_cell
+        output_data["numBonds"] = self.num_bonds
+        output_data["numChains"] = self.num_chains
+        output_data["numModels"] = self.num_models
+        output_data["numAtoms"] = self.num_atoms
+        output_data["numGroups"] = self.num_groups
+        return output_data

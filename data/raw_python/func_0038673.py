@@ -1,0 +1,10 @@
+def _get(self, q, params=''):
+        '''Generic GET wrapper including the api_key'''
+        if (q[-1] == '/'): q = q[:-1]
+        headers = {'Content-Type': 'application/json'}
+        r = requests.get('{url}{q}?api_key={key}{params}'.format(url=self.url, q=q, key=self.api_key, params=params),
+                        headers=headers)
+        ret = DotDict(r.json())
+        if (not r.ok or ('error' in ret and ret.error == True)):
+            raise Exception(r.url, r.reason, r.status_code, r.json())
+        return DotDict(r.json())

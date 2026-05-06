@@ -1,0 +1,92 @@
+def warp_vrt(directory, delete_extra=False, use_band_map=False,
+             overwrite=False, remove_bqa=True, return_profile=False):
+    """ Read in image geometry, resample subsequent images to same grid.
+
+    The purpose of this function is to snap many Landsat images to one geometry. Use Landsat578
+    to download and unzip them, then run them through this to get identical geometries for analysis.
+    Files
+    :param use_band_map:
+    :param delete_extra:
+    :param directory: A directory containing sub-directories of Landsat images.
+    :return: None
+    """
+
+    if 'resample_meta.txt' in os.listdir(directory) and not overwrite:
+        print('{} has already had component images warped'.format(directory))
+        return None
+
+    mapping = {'LC8': Landsat8, 'LE7': Landsat7, 'LT5': Landsat5}
+
+    vrt_options = {}
+    list_dir = [x[0] for x in os.walk(directory) if os.path.basename(x[0])[:3] in mapping.keys()]
+    extras = [os.path.join(directory, x) for x in os.listdir(directory) if x.endswith('.tif')]
+    first = True
+
+    for d in list_dir:
+        sat = LandsatImage(d).satellite
+        paths = extras
+        root = os.path.join(directory, d)
+        if os.path.isdir(root):
+            for x in os.listdir(root):
+
+                if remove_bqa and x.endswith('BQA.TIF'):
+                    try:
+                        os.remove(x)
+                    except FileNotFoundError:
+                        pass
+
+                elif use_band_map:
+                    bands = BandMap().selected
+                    for y in bands[sat]:
+                        if x.endswith('B{}.TIF'.format(y)):
+                            paths.append(os.path.join(directory, d, x))
+                else:
+                    if x.endswith('.TIF') or x.endswith('.tif'):
+                        paths.append(os.path.join(directory, d, x))
+
+                if x.endswith('MTL.txt'):
+                    mtl = os.path.join(directory, d, x)
+
+        if first:
+
+            landsat = mapping[sat](os.path.join(directory, d))
+            dst = landsat.rasterio_geometry
+
+            vrt_options = {'resampling': Resampling.nearest,
+                           'dst_crs': dst['crs'],
+                           'dst_transform': dst['transform'],
+                           'dst_height': dst['height'],
+                           'dst_width': dst['width']}
+
+
+            message = """
+            This directory has been resampled to same grid.
+            Master grid is {}.
+            {}
+            """.format(d, datetime.now())
+            with open(os.path.join(directory, 'resample_meta.txt'), 'w') as f:
+                f.write(message)
+            first = False
+
+        for tif_path in paths:
+            print('warping {}'.format(os.path.basename(tif_path)))
+            with rasopen(tif_path, 'r') as src:
+                with WarpedVRT(src, **vrt_options) as vrt:
+                    data = vrt.read()
+                    dst_dir, name = os.path.split(tif_path)
+                    outfile = os.path.join(dst_dir, name)
+                    meta = vrt.meta.copy()
+                    meta['driver'] = 'GTiff'
+                    with rasopen(outfile, 'w', **meta) as dst:
+                        dst.write(data)
+
+        if delete_extra:
+            for x in os.listdir(os.path.join(directory, d)):
+                x_file = os.path.join(directory, d, x)
+                if x_file not in paths:
+                    if x[-7:] not in ['ask.tif', 'MTL.txt']:
+                        print('removing {}'.format(x_file))
+                        os.remove(x_file)
+
+    if return_profile:
+        return dst

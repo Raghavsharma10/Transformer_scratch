@@ -1,0 +1,27 @@
+def get_payload(self):
+        """Return Payload."""
+        payload = bytes()
+        payload += bytes([self.node_id])
+        payload += bytes([self.order >> 8 & 255, self.order & 255])
+        payload += bytes([self.placement])
+        payload += bytes(string_to_bytes(self.name, 64))
+        payload += bytes([self.velocity.value])
+        payload += bytes([self.node_type.value >> 8 & 255, self.node_type.value & 255])
+        payload += bytes([self.product_group])
+        payload += bytes([self.product_type])
+        payload += bytes([self.node_variation.value])
+        payload += bytes([self.power_mode])
+        payload += bytes([self.build_number])
+        payload += bytes(self._serial_number)
+        payload += bytes([self.state])
+        payload += bytes(self.current_position.raw)
+        payload += bytes(self.target.raw)
+        payload += bytes(self.current_position_fp1.raw)
+        payload += bytes(self.current_position_fp2.raw)
+        payload += bytes(self.current_position_fp3.raw)
+        payload += bytes(self.current_position_fp4.raw)
+        payload += bytes([self.remaining_time >> 8 & 255, self.remaining_time & 255])
+        payload += struct.pack(">I", self.timestamp)
+        payload += bytes(self.alias_array)
+
+        return payload
