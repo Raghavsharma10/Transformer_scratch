@@ -1,0 +1,13 @@
+{
+  "avg_loss": 1.8402,
+  "perplexity": 6.3,
+  "top1_acc": 0.3163,
+  "total_tokens": 102400,
+  "p50_ms": 571.1,
+  "p95_ms": 802.7,
+  "p99_ms": 940.3,
+  "mean_ms": 567.1,
+  "n": 100,
+  "oracle_top1": 0.04,
+  "oracle_top3": 0.06
+}
