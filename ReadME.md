@@ -1,14 +1,14 @@
-## 🧠 Transformer from Scratch -> Auto Code Completion System (for Python) Using In - House Transformer *(Ongoing)*
+##  Transformer from Scratch -> Auto Code Completion System (for Python) Using In - House Transformer *(Ongoing)*
 
 ---
 
-### ⚙️ Overview
+###  Overview
 
 - **Built a decoder-only Transformer from scratch (NumPy)** for **Python Code Generation**
 
 ---
 
-### 🔧 Core Components Implemented
+###  Core Components Implemented
 
 - **Multi-head Self-attention**  
 - **Positional Encoding**  
