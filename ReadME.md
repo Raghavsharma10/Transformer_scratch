@@ -40,4 +40,4 @@
 
 - Inspired from standard Auto Code Completion models like GitHub Copilot  
 - Instead of outputting a single most probable block, **provides multiple possibilities**  
-- Gives **more control and flexibility** to the user  
+- Gives **more control and flexibility** to the user  .
